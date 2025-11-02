@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SD — Website in the Making</title>
+
+  <!-- 💙 Baby blue heart favicon -->
+  <link rel="icon" href="data:image/svg+xml;utf8,
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
+    <path fill='%237ec8f3' d='M32 58s-4-3-9-7C10 38 2 28 2 18a14 14 0 0 1 25-9 14 14 0 0 1 25 9c0 10-8 20-21 33-5 4-9 7-9 7z'/>
+  </svg>">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --baby-blue: #d6eeff;
+      --blue-accent: #7ec8f3;
+      --dark-blue: #0a3d62;
+      --light: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, var(--baby-blue), #b3e5fc);
+      font-family: "Poppins", sans-serif;
+      overflow: hidden;
+      position: relative;
+      animation: fadeInBody 1.2s ease forwards;
+    }
+
+    @keyframes fadeInBody { from {opacity:0;} to {opacity:1;} }
+
+    .glow {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(126,200,243,0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(40px);
+      animation: float 8s ease-in-out infinite alternate;
+    }
+    .glow:nth-child(1){ top: -50px; left: -80px; animation-delay:0s;}
+    .glow:nth-child(2){ bottom: 60px; right: -60px; animation-delay:2s;}
+    @keyframes float{ from{transform:translateY(0);} to{transform:translateY(20px) scale(1.05);} }
+
+    .container {
+      position: relative;
+      width: 100%;
+      max-width: 450px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .card {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.98);
+      width: 100%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(100, 160, 200, 0.25);
+      padding: 45px 50px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .card.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+      z-index: 5;
+    }
+
+    .pfp {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid var(--blue-accent);
+      background: linear-gradient(135deg, #cfefff, #a8dcff);
+      margin-bottom: 20px;
+      object-fit: cover;
+      position: relative;
+      overflow: hidden;
+      animation: pfpShine 2s ease forwards;
+    }
+
+    @keyframes pfpShine {
+      0% { opacity: 0; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .pfp::after {
+      content: "";
+      position: absolute;
+      top: 0; left: -75%;
+      width: 50%; height: 100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
+      transform: skewX(-25deg);
+      animation: shine 2.5s ease-in-out 1.2s forwards;
+    }
+
+    @keyframes shine {
+      0% { left: -75%; }
+      100% { left: 125%; }
+    }
+
+    h1 { font-size: 1.8rem; color: var(--dark-blue); margin-top: 10px; }
+
+    .status { margin-top: 10px; font-weight: 600; color: var(--blue-accent); }
+
+    .progress-container { margin-top: 18px; }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue-accent), #5eb2f0);
+      border-radius: 999px;
+      transition: width 2s ease-in-out;
+    }
+
+    .progress-text {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: var(--dark-blue);
+      font-weight: 500;
+    }
+
+    .socials {
+      margin-top: 26px;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .socials a {
+      background: var(--baby-blue);
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 8px rgba(60, 130, 180, 0.2);
+    }
+
+    .socials a:hover { background: var(--blue-accent); transform: scale(1.2) rotate(5deg); }
+    .socials svg { width: 22px; height: 22px; fill: var(--dark-blue); transition: fill 0.25s; }
+    .socials a:hover svg { fill: var(--light); }
+
+    footer {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-align: center;
+      color: rgba(20, 80, 120, 0.7);
+      margin-top: 30px;
+      animation: fadeIn 2s ease forwards 1.2s, waveGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+    @keyframes waveGlow {
+      0%,100% { filter: brightness(1); text-shadow: 0 0 8px rgba(126,200,243,0.4); }
+      50% { filter: brightness(1.3); text-shadow: 0 0 20px rgba(126,200,243,0.8); }
+    }
+
+    /* Transition overlay */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at center, rgba(126,200,243,0.4), rgba(126,200,243,0.9));
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+
+    .overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Copy card */
+    .copy-card h2 { color: var(--dark-blue); margin-bottom: 10px; }
+    .copy-card p { color: var(--blue-accent); font-weight: 600; font-size: 1.1rem; }
+    .copy-btn {
+      margin-top: 15px;
+      background: var(--blue-accent);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(126,200,243,0.3);
+      transition: all 0.3s ease;
+    }
+    .copy-btn:hover { transform: scale(1.05); background: #5eb2f0; }
+
+    .back-btn {
+      margin-top: 20px;
+      background: none;
+      border: none;
+      color: var(--dark-blue);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: underline;
+    }
+
+    @media (max-width:600px){
+      h1 { font-size:1.6rem; }
+      footer { font-size: 1rem; margin-top: 20px; }
+      .pfp { width:100px; height:100px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="glow"></div>
+  <div class="glow"></div>
+  <div class="overlay"></div>
+
+  <div class="container">
+    <!-- Main card -->
+    <div class="card visible" id="main-card">
+      <img src="pfp.png" alt="SD Profile" class="pfp" />
+      <h1>SD</h1>
+      <div class="status">🚧 Website in the making 🚧</div>
+
+      <div class="progress-container">
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="progress-text">Loading... 0%</div>
+      </div>
+
+      <div class="socials">
+        <a href="#" id="discord"><svg viewBox="0 0 24 24"><path d="M20 4.5A19.8 19.8 0 0 0 15.84 3a13.9 13.9 0 0 0-.65 1.35 18.4 18.4 0 0 0-5.38 0A13.9 13.9 0 0 0 9.16 3 19.8 19.8 0 0 0 5 4.5A19.3 19.3 0 0 0 2 18.7a19.7 19.7 0 0 0 5 2.55 14.6 14.6 0 0 0 .86-1.44 12.7 12.7 0 0 1-1.35-.65 2.8 2.8 0 0 0 .38-.3 13.5 13.5 0 0 0 12.2 0l.38.3a12.7 12.7 0 0 1-1.35.65c.25.5.56 1 .86 1.44A19.7 19.7 0 0 0 22 18.7 19.3 19.3 0 0 0 20 4.5ZM9.5 15c-.8 0-1.45-.75-1.45-1.67 0-.92.65-1.67 1.45-1.67s1.47.75 1.47 1.67C10.97 14.25 10.3 15 9.5 15Zm5 0c-.8 0-1.45-.75-1.45-1.67 0-.92.65-1.67 1.45-1.67s1.47.75 1.47 1.67c0 .92-.67 1.67-1.47 1.67Z"/></svg></a>
+        <a href="https://www.instagram.com/saihaj_13/" target="_blank"><svg viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7ZM17.5 6.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/></svg></a>
+        <a href="#" id="email"><svg viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H3Zm0 2 9 6 9-6H3Zm0 2.24V17h18V9.24l-9 6-9-6Z"/></svg></a>
+      </div>
+
+      <footer>COMING SOON...</footer>
+    </div>
+
+    <!-- Copy card -->
+    <div class="card copy-card" id="copy-card">
+      <h2 id="copy-title">Discord Username</h2>
+      <p id="copy-value">sds_13</p>
+      <button class="copy-btn" id="copy-btn">Copy Username</button><br>
+      <button class="back-btn" id="back-btn">← Back</button>
+    </div>
+  </div>
+
+  <script>
+    const mainCard = document.getElementById('main-card');
+    const copyCard = document.getElementById('copy-card');
+    const overlay = document.querySelector('.overlay');
+    const discordBtn = document.getElementById('discord');
+    const emailBtn = document.getElementById('email');
+    const backBtn = document.getElementById('back-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const copyTitle = document.getElementById('copy-title');
+    const copyValue = document.getElementById('copy-value');
+
+    const progressFill = document.querySelector('.progress-fill');
+    const progressText = document.querySelector('.progress-text');
+    let progress = 0;
+    const target = 69;
+
+    const interval = setInterval(() => {
+      if (progress < target) {
+        progress++;
+        progressFill.style.width = progress + "%";
+        progressText.textContent = `Loading... ${progress}%`;
+      } else {
+        clearInterval(interval);
+        progressText.textContent = `🚀 ${progress}% Complete`;
+      }
+    }, 30);
+
+    function showOverlay(callback) {
+      overlay.classList.add('active');
+      setTimeout(() => {
+        callback();
+        setTimeout(() => overlay.classList.remove('active'), 600);
+      }, 400);
+    }
+
+    discordBtn.addEventListener('click', () => {
+      showOverlay(() => {
+        copyTitle.textContent = "Discord Username";
+        copyValue.textContent = "sds_13";
+        mainCard.classList.remove('visible');
+        copyCard.classList.add('visible');
+      });
+    });
+
+    emailBtn.addEventListener('click', () => {
+      showOverlay(() => {
+        copyTitle.textContent = "Email Address";
+        copyValue.textContent = "saihajdeep013@gmail.com";
+        mainCard.classList.remove('visible');
+        copyCard.classList.add('visible');
+      });
+    });
+
+    backBtn.addEventListener('click', () => {
+      showOverlay(() => {
+        copyCard.classList.remove('visible');
+        mainCard.classList.add('visible');
+      });
+    });
+
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(copyValue.textContent);
+      copyBtn.textContent = "Copied!";
+      setTimeout(() => copyBtn.textContent = "Copy", 1200);
+    });
+  </script>
+</body>
+</html>
