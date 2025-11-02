@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SD — Website in the Making</title>
 
-  <!-- 💙 Baby blue heart favicon -->
+  <!-- Baby blue heart favicon -->
   <link rel="icon" href="data:image/svg+xml;utf8,
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
     <path fill='%237ec8f3' d='M32 58s-4-3-9-7C10 38 2 28 2 18a14 14 0 0 1 25-9 14 14 0 0 1 25 9c0 10-8 20-21 33-5 4-9 7-9 7z'/>
   </svg>">
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Raleway:wght@700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -19,6 +20,19 @@
       --blue-accent: #7ec8f3;
       --dark-blue: #0a3d62;
       --light: #ffffff;
+      --text-main: #145078;
+      --soon-dark: #0b3a5e;
+      --ripple-light: rgba(126,200,243,0.5);
+      --ripple-dark: rgba(90,150,220,0.4);
+    }
+
+    body.dark {
+      --baby-blue: #0a3d62;
+      --blue-accent: #5eb2f0;
+      --dark-blue: #d6eeff;
+      --light: #102f45;
+      --text-main: #d6eeff;
+      --soon-dark: #b3dcff;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,17 +40,17 @@
     body {
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(180deg, var(--baby-blue), #b3e5fc);
       font-family: "Poppins", sans-serif;
+      background: linear-gradient(180deg, var(--baby-blue), #b3e5fc);
+      transition: background 0.6s ease, color 0.6s ease;
       overflow: hidden;
-      position: relative;
-      animation: fadeInBody 1.2s ease forwards;
     }
 
-    @keyframes fadeInBody { from {opacity:0;} to {opacity:1;} }
+    body.dark {
+      background: radial-gradient(circle at center, #0a3d62 0%, #062a45 100%);
+    }
 
     .glow {
       position: absolute;
@@ -47,18 +61,18 @@
       filter: blur(40px);
       animation: float 8s ease-in-out infinite alternate;
     }
-    .glow:nth-child(1){ top: -50px; left: -80px; animation-delay:0s;}
-    .glow:nth-child(2){ bottom: 60px; right: -60px; animation-delay:2s;}
-    @keyframes float{ from{transform:translateY(0);} to{transform:translateY(20px) scale(1.05);} }
+    .glow:nth-child(1){ top: -60px; left: -100px; animation-delay:0s;}
+    .glow:nth-child(2){ bottom: 60px; right: -80px; animation-delay:2s;}
+    @keyframes float { from{transform:translateY(0);} to{transform:translateY(25px) scale(1.05);} }
 
     .container {
       position: relative;
       width: 100%;
       max-width: 450px;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
       padding: 20px;
     }
 
@@ -66,7 +80,7 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      transform: translate(-50%, -50%) scale(0.98);
+      transform: translate(-50%, -50%) scale(0.96);
       width: 100%;
       max-width: 400px;
       background: rgba(255, 255, 255, 0.7);
@@ -77,14 +91,19 @@
       backdrop-filter: blur(8px);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transition: opacity 0.6s ease, transform 0.6s ease, background 0.6s ease;
+      z-index: 5;
+    }
+
+    body.dark .card {
+      background: rgba(10, 61, 98, 0.6);
+      box-shadow: 0 8px 25px rgba(20, 40, 60, 0.5);
     }
 
     .card.visible {
       opacity: 1;
       pointer-events: auto;
       transform: translate(-50%, -50%) scale(1);
-      z-index: 5;
     }
 
     .pfp {
@@ -95,35 +114,21 @@
       background: linear-gradient(135deg, #cfefff, #a8dcff);
       margin-bottom: 20px;
       object-fit: cover;
-      position: relative;
-      overflow: hidden;
-      animation: pfpShine 2s ease forwards;
+      transition: transform 0.4s ease;
+    }
+    .pfp:hover { transform: scale(1.05); }
+
+    h1 {
+      font-size: 1.8rem;
+      color: var(--text-main);
+      font-family: "Raleway", sans-serif;
     }
 
-    @keyframes pfpShine {
-      0% { opacity: 0; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.05); }
-      100% { transform: scale(1); }
+    .status {
+      margin-top: 10px;
+      font-weight: 600;
+      color: var(--blue-accent);
     }
-
-    .pfp::after {
-      content: "";
-      position: absolute;
-      top: 0; left: -75%;
-      width: 50%; height: 100%;
-      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
-      transform: skewX(-25deg);
-      animation: shine 2.5s ease-in-out 1.2s forwards;
-    }
-
-    @keyframes shine {
-      0% { left: -75%; }
-      100% { left: 125%; }
-    }
-
-    h1 { font-size: 1.8rem; color: var(--dark-blue); margin-top: 10px; }
-
-    .status { margin-top: 10px; font-weight: 600; color: var(--blue-accent); }
 
     .progress-container { margin-top: 18px; }
 
@@ -146,7 +151,7 @@
     .progress-text {
       margin-top: 6px;
       font-size: 0.9rem;
-      color: var(--dark-blue);
+      color: var(--text-main);
       font-weight: 500;
     }
 
@@ -170,37 +175,51 @@
       box-shadow: 0 3px 8px rgba(60, 130, 180, 0.2);
     }
 
-    .socials a:hover { background: var(--blue-accent); transform: scale(1.2) rotate(5deg); }
-    .socials svg { width: 22px; height: 22px; fill: var(--dark-blue); transition: fill 0.25s; }
-    .socials a:hover svg { fill: var(--light); }
+    .socials a:hover {
+      background: var(--blue-accent);
+      transform: scale(1.2) rotate(5deg);
+    }
+
+    .socials svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--dark-blue);
+      transition: fill 0.25s;
+    }
+
+    .socials a:hover svg {
+      fill: var(--light);
+    }
 
     footer {
-      font-size: 1.2rem;
+      margin-top: 25px;
+      font-size: 1.1rem;
       font-weight: 700;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, var(--soon-dark), var(--blue-accent), var(--soon-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 4s infinite linear;
+      background-size: 200%;
       letter-spacing: 3px;
-      text-align: center;
-      color: rgba(20, 80, 120, 0.7);
-      margin-top: 30px;
-      animation: fadeIn 2s ease forwards 1.2s, waveGlow 3s ease-in-out infinite;
     }
 
-    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
-    @keyframes waveGlow {
-      0%,100% { filter: brightness(1); text-shadow: 0 0 8px rgba(126,200,243,0.4); }
-      50% { filter: brightness(1.3); text-shadow: 0 0 20px rgba(126,200,243,0.8); }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
 
-    /* Transition overlay */
     .overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: radial-gradient(circle at center, rgba(126,200,243,0.4), rgba(126,200,243,0.9));
+      background: transparent;
+      backdrop-filter: blur(8px);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.6s ease;
       z-index: 10;
-      backdrop-filter: blur(8px);
+      transition: opacity 0.5s ease;
+      overflow: hidden;
     }
 
     .overlay.active {
@@ -208,9 +227,20 @@
       pointer-events: auto;
     }
 
-    /* Copy card */
-    .copy-card h2 { color: var(--dark-blue); margin-bottom: 10px; }
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple-wave 0.8s ease-out forwards;
+    }
+
+    @keyframes ripple-wave {
+      to { transform: scale(20); opacity: 0; }
+    }
+
+    .copy-card h2 { color: var(--text-main); margin-bottom: 10px; }
     .copy-card p { color: var(--blue-accent); font-weight: 600; font-size: 1.1rem; }
+
     .copy-btn {
       margin-top: 15px;
       background: var(--blue-accent);
@@ -220,25 +250,64 @@
       border-radius: 10px;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(126,200,243,0.3);
       transition: all 0.3s ease;
     }
     .copy-btn:hover { transform: scale(1.05); background: #5eb2f0; }
 
+    .copied {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .copied.visible { opacity: 1; transform: translateY(0); }
+
     .back-btn {
-      margin-top: 20px;
+      margin-top: 18px;
       background: none;
       border: none;
-      color: var(--dark-blue);
-      cursor: pointer;
+      color: var(--text-main);
       font-weight: 600;
       font-size: 0.9rem;
-      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 26px;
+      background: #cce7ff;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 3px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: background 0.3s ease;
+      z-index: 20;
+    }
+
+    .toggle-ball {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #5eb2f0;
+      transition: transform 0.4s ease;
+    }
+
+    body.dark .theme-toggle {
+      background: #1b4b6d;
+      justify-content: flex-end;
     }
 
     @media (max-width:600px){
-      h1 { font-size:1.6rem; }
-      footer { font-size: 1rem; margin-top: 20px; }
+      h1 { font-size:1.5rem; }
+      footer { font-size: 0.9rem; }
       .pfp { width:100px; height:100px; }
     }
   </style>
@@ -247,10 +316,12 @@
 <body>
   <div class="glow"></div>
   <div class="glow"></div>
-  <div class="overlay"></div>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="theme-toggle" id="theme-toggle"><div class="toggle-ball"></div></div>
 
   <div class="container">
-    <!-- Main card -->
+    <!-- Main Card -->
     <div class="card visible" id="main-card">
       <img src="pfp.png" alt="SD Profile" class="pfp" />
       <h1>SD</h1>
@@ -262,88 +333,102 @@
       </div>
 
       <div class="socials">
-        <a href="#" id="discord"><svg viewBox="0 0 24 24"><path d="M20 4.5A19.8 19.8 0 0 0 15.84 3a13.9 13.9 0 0 0-.65 1.35 18.4 18.4 0 0 0-5.38 0A13.9 13.9 0 0 0 9.16 3 19.8 19.8 0 0 0 5 4.5A19.3 19.3 0 0 0 2 18.7a19.7 19.7 0 0 0 5 2.55 14.6 14.6 0 0 0 .86-1.44 12.7 12.7 0 0 1-1.35-.65 2.8 2.8 0 0 0 .38-.3 13.5 13.5 0 0 0 12.2 0l.38.3a12.7 12.7 0 0 1-1.35.65c.25.5.56 1 .86 1.44A19.7 19.7 0 0 0 22 18.7 19.3 19.3 0 0 0 20 4.5ZM9.5 15c-.8 0-1.45-.75-1.45-1.67 0-.92.65-1.67 1.45-1.67s1.47.75 1.47 1.67C10.97 14.25 10.3 15 9.5 15Zm5 0c-.8 0-1.45-.75-1.45-1.67 0-.92.65-1.67 1.45-1.67s1.47.75 1.47 1.67c0 .92-.67 1.67-1.47 1.67Z"/></svg></a>
-        <a href="https://www.instagram.com/saihaj_13/" target="_blank"><svg viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7ZM17.5 6.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/></svg></a>
-        <a href="#" id="email"><svg viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H3Zm0 2 9 6 9-6H3Zm0 2.24V17h18V9.24l-9 6-9-6Z"/></svg></a>
+        <a href="#" id="discord">
+          <svg viewBox="0 0 24 24"><path d="M20 4.5A19.8 19.8 0 0 0 15.84 3a13.9 13.9 0 0 0-.65 1.35 18.4 18.4 0 0 0-5.38 0A13.9 13.9 0 0 0 9.16 3 19.8 19.8 0 0 0 5 4.5A19.3 19.3 0 0 0 2 18.7a19.7 19.7 0 0 0 5 2.55 14.6 14.6 0 0 0 .86-1.44 12.7 12.7 0 0 1-1.35-.65 2.8 2.8 0 0 0 .38-.3 13.5 13.5 0 0 0 12.2 0l.38.3a12.7 12.7 0 0 1-1.35.65c.25.5.56 1 .86 1.44A19.7 19.7 0 0 0 22 18.7 19.3 19.3 0 0 0 20 4.5ZM9.5 15c-.8 0-1.45-.75-1.45-1.67 0-.92.65-1.67 1.45-1.67s1.47.75 1.47 1.67C10.97 14.25 10.3 15 9.5 15Zm5 0c-.8 0-1.45-.75-1.45-1.67 0-.92.65-1.67 1.45-1.67s1.47.75 1.47 1.67c0 .92-.67 1.67-1.47 1.67Z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/saihaj_13/" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25  0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7ZM17.5 6.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/></svg>
+        </a>
+        <a href="#" id="email">
+          <svg viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H3Zm0 2 9 6 9-6H3Zm0 2.24V17h18V9.24l-9 6-9-6Z"/></svg>
+        </a>
       </div>
 
       <footer>COMING SOON...</footer>
     </div>
 
-    <!-- Copy card -->
+    <!-- Copy Card -->
     <div class="card copy-card" id="copy-card">
       <h2 id="copy-title">Discord Username</h2>
       <p id="copy-value">sds_13</p>
-      <button class="copy-btn" id="copy-btn">Copy Username</button><br>
+      <button class="copy-btn" id="copy-btn">Copy</button>
+      <div class="copied" id="copied">Copied!</div>
       <button class="back-btn" id="back-btn">← Back</button>
     </div>
   </div>
 
   <script>
+    const overlay = document.getElementById('overlay');
     const mainCard = document.getElementById('main-card');
     const copyCard = document.getElementById('copy-card');
-    const overlay = document.querySelector('.overlay');
     const discordBtn = document.getElementById('discord');
     const emailBtn = document.getElementById('email');
     const backBtn = document.getElementById('back-btn');
     const copyBtn = document.getElementById('copy-btn');
     const copyTitle = document.getElementById('copy-title');
     const copyValue = document.getElementById('copy-value');
-
+    const copied = document.getElementById('copied');
+    const toggle = document.getElementById('theme-toggle');
     const progressFill = document.querySelector('.progress-fill');
     const progressText = document.querySelector('.progress-text');
+
     let progress = 0;
     const target = 69;
-
     const interval = setInterval(() => {
       if (progress < target) {
         progress++;
         progressFill.style.width = progress + "%";
         progressText.textContent = `Loading... ${progress}%`;
       } else {
+        progressText.textContent = "🚀 69% Complete";
         clearInterval(interval);
-        progressText.textContent = `🚀 ${progress}% Complete`;
       }
     }, 30);
 
-    function showOverlay(callback) {
-      overlay.classList.add('active');
-      setTimeout(() => {
-        callback();
-        setTimeout(() => overlay.classList.remove('active'), 600);
-      }, 400);
+    function rippleEffect(e) {
+      const ripple = document.createElement("span");
+      ripple.className = "ripple";
+      ripple.style.background = document.body.classList.contains('dark') ? 'var(--ripple-dark)' : 'var(--ripple-light)';
+      const size = Math.max(window.innerWidth, window.innerHeight);
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${e.clientX - size / 2}px`;
+      ripple.style.top = `${e.clientY - size / 2}px`;
+      overlay.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 800);
     }
 
-    discordBtn.addEventListener('click', () => {
-      showOverlay(() => {
-        copyTitle.textContent = "Discord Username";
-        copyValue.textContent = "sds_13";
-        mainCard.classList.remove('visible');
-        copyCard.classList.add('visible');
-      });
-    });
+    function showCopyPage(title, value, e) {
+      overlay.classList.add("active");
+      rippleEffect(e);
+      setTimeout(() => {
+        mainCard.classList.remove("visible");
+        copyCard.classList.add("visible");
+        copyTitle.textContent = title;
+        copyValue.textContent = value;
+        overlay.classList.remove("active");
+      }, 500);
+    }
 
-    emailBtn.addEventListener('click', () => {
-      showOverlay(() => {
-        copyTitle.textContent = "Email Address";
-        copyValue.textContent = "saihajdeep013@gmail.com";
-        mainCard.classList.remove('visible');
-        copyCard.classList.add('visible');
-      });
-    });
+    discordBtn.onclick = (e) => showCopyPage("Discord Username", "sds_13", e);
+    emailBtn.onclick = (e) => showCopyPage("Email Address", "saihajdeep013@gmail.com", e);
 
-    backBtn.addEventListener('click', () => {
-      showOverlay(() => {
-        copyCard.classList.remove('visible');
-        mainCard.classList.add('visible');
-      });
-    });
+    backBtn.onclick = (e) => {
+      overlay.classList.add("active");
+      rippleEffect(e);
+      setTimeout(() => {
+        copyCard.classList.remove("visible");
+        mainCard.classList.add("visible");
+        overlay.classList.remove("active");
+      }, 500);
+    };
 
-    copyBtn.addEventListener('click', () => {
+    copyBtn.onclick = () => {
       navigator.clipboard.writeText(copyValue.textContent);
-      copyBtn.textContent = "Copied!";
-      setTimeout(() => copyBtn.textContent = "Copy", 1200);
-    });
+      copied.classList.add("visible");
+      setTimeout(() => copied.classList.remove("visible"), 1500);
+    };
+
+    toggle.onclick = () => document.body.classList.toggle('dark');
   </script>
 </body>
 </html>
